@@ -5,6 +5,8 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
+require("./models/User.model");
+
 const app = express();
 
 // Middleware
