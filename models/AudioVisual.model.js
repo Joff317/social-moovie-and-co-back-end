@@ -1,4 +1,5 @@
 const { schema, model } = require("mongoose");
+const { uploadImage } = require("../config/cloudinary");
 
 const allowedGenre = [
   "science-fiction",
@@ -14,10 +15,27 @@ const allowedGenre = [
   "other",
 ];
 
+const allowedCategories = ["film", "serie", "animé"];
+
+const imageValidation = async (imagePath) => {
+  try {
+    await uploadImage(imagePath);
+    return true;
+  } catch (err) {
+    return false;
+  }
+};
+
 const audioVisualSchema = new Schema({
   categorie: {
     type: String,
     required: [true, "categorie is mandatory"],
+    enum: {
+      values: allowedCategories,
+      message: `Invalid categorie. Choose from: ${allowedCategories.join(
+        ", "
+      )}`,
+    },
   },
   title: {
     type: String,
@@ -43,9 +61,18 @@ const audioVisualSchema = new Schema({
   image: {
     type: String,
     required: [true, "image is mandatory"],
+    validate: {
+      validator: async function (value) {
+        return await imageValidation(value);
+      },
+      message: "Image is inappropriate or contains nudity.",
+    },
   },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
 });
+
+const AudioVisual = model("AudioVisual", audioVisualSchema);
+module.exports = AudioVisual;
