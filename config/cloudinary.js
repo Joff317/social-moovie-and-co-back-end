@@ -37,16 +37,14 @@ const uploadImage = async (imagePath) => {
   }
 };
 
-(async () => {
-  // Set the image to upload
-  const imagePath =
-    "https://cloudinary-devs.github.io/cld-docs-assets/assets/images/happy_people.jpg";
+// (async () => {
+//   // Set the image to upload
+//   const imagePath =
+//     "https://cloudinary-devs.github.io/cld-docs-assets/assets/images/happy_people.jpg";
 
-  // Upload the image
-  const publicId = await uploadImage(imagePath);
+//   // Upload the image
+//   const publicId = await uploadImage(imagePath);
 
-  // Log the image tag to the console
-  console.log(imageTag);
-})();
+// })();
 
-export { uploadImage };
+module.exports = uploadImage;
