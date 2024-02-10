@@ -50,6 +50,10 @@ const audioVisualSchema = new Schema({
       message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
     },
   },
+  synopsis: {
+    type: String,
+    required: [true, "synopsis is mandatory"],
+  },
   author: {
     type: String,
     required: [true, "author is mandatory"],
@@ -58,19 +62,23 @@ const audioVisualSchema = new Schema({
     type: Number,
     required: [true, "date is mandatory"],
   },
+  duration: {
+    type: Number,
+    require: [true, "duration is mandatory"],
+  },
   image: {
     type: String,
     required: [true, "image is mandatory"],
-   //  validate: {
-   //    validator: async function (value) {
-   //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-   //      console.log("value: ", value);
-   //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    //  validate: {
+    //    validator: async function (value) {
+    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    //      console.log("value: ", value);
+    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 
-   //      return await imageValidation(value);
-   //    },
-   //    message: "Image is inappropriate or contains nudity.",
-   //  },
+    //      return await imageValidation(value);
+    //    },
+    //    message: "Image is inappropriate or contains nudity.",
+    //  },
   },
   user: {
     type: Schema.Types.ObjectId,
