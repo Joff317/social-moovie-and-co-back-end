@@ -1,4 +1,4 @@
-const { schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 const { uploadImage } = require("../config/cloudinary");
 
 const allowedGenre = [
@@ -17,14 +17,14 @@ const allowedGenre = [
 
 const allowedCategories = ["film", "serie", "animé"];
 
-const imageValidation = async (imagePath) => {
-  try {
-    await uploadImage(imagePath);
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
+// const imageValidation = async (imagePath) => {
+//   try {
+//     await uploadImage(imagePath);
+//     return true;
+//   } catch (err) {
+//     return false;
+//   }
+// };
 
 const audioVisualSchema = new Schema({
   categorie: {
@@ -50,6 +50,10 @@ const audioVisualSchema = new Schema({
       message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
     },
   },
+  synopsis: {
+    type: String,
+    required: [true, "synopsis is mandatory"],
+  },
   author: {
     type: String,
     required: [true, "author is mandatory"],
@@ -58,15 +62,23 @@ const audioVisualSchema = new Schema({
     type: Number,
     required: [true, "date is mandatory"],
   },
+  duration: {
+    type: Number,
+    require: [true, "duration is mandatory"],
+  },
   image: {
     type: String,
     required: [true, "image is mandatory"],
-    validate: {
-      validator: async function (value) {
-        return await imageValidation(value);
-      },
-      message: "Image is inappropriate or contains nudity.",
-    },
+    //  validate: {
+    //    validator: async function (value) {
+    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+    //      console.log("value: ", value);
+    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+
+    //      return await imageValidation(value);
+    //    },
+    //    message: "Image is inappropriate or contains nudity.",
+    //  },
   },
   user: {
     type: Schema.Types.ObjectId,
