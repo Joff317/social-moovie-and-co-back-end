@@ -84,6 +84,13 @@ const audioVisualSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Commentary",
+    },
+  ],
 });
 
 const AudioVisual = model("AudioVisual", audioVisualSchema);
