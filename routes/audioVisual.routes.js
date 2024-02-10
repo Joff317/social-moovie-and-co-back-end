@@ -38,6 +38,7 @@ router.get("/", async (req, res, next) => {
         author: 1,
         date: 1,
         image: 1,
+        comments: 1,
       })
       .populate("user", { _id: 0, pseudo: 1 });
 

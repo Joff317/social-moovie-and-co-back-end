@@ -30,13 +30,6 @@ const userSchema = new Schema({
   //     message:
   //       "Le mot de passe doit contenir 8 caractères dont une majuscule, un chiffre et un caractère spécial.",
   //   },
-
-  comments: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Commentary",
-    },
-  ],
 });
 
 const User = model("User", userSchema);
