@@ -5,11 +5,12 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 
-require("./models/User.model")
+require("./models/User.model");
 
 const app = express();
 
 // Middleware
+app.use(cors({ origin: process.env.CORS_URL }));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
