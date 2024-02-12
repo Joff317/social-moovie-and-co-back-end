@@ -35,10 +35,12 @@ const listSchema = new Schema({
     ref: "User",
   },
 
-  audioVisual: {
-    type: Schema.Types.ObjectId,
-    ref: "AudioVisual",
-  },
+  audioVisual: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "AudioVisual",
+    },
+  ],
 });
 
 const List = model("List", listSchema);
