@@ -81,7 +81,7 @@ router.put(
 router.delete(
   "/:audiovisualId/:commentId",
   requireAuth,
-  async (req, res, nest) => {
+  async (req, res, next) => {
     try {
       const commentId = req.params.commentId;
       const userId = req.user._id;
@@ -89,7 +89,7 @@ router.delete(
         _id: 1,
         email: 1,
       });
-      if (checkUser.user._id.equals(userId)) {
+      if (checkUser && checkUser.user && checkUser.user._id.equals(userId)) {
         const deletedComment = await Commentary.findByIdAndDelete(commentId);
 
         res
