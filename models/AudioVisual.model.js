@@ -3,16 +3,17 @@ const { uploadImage } = require("../config/cloudinary");
 
 const allowedGenre = [
   "science-fiction",
-  "horror",
+  "horreur",
   "action",
-  "drama",
-  "comedy",
+  "drame",
+  "comedie",
   "romance",
   "thriller",
-  "fantasy",
+  "fantastique",
   "animation",
-  "documentary",
-  "other",
+  "documentaire",
+  "policier",
+  "Autre",
 ];
 
 const allowedCategories = ["film", "serie", "animé"];
