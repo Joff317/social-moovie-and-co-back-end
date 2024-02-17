@@ -7,7 +7,8 @@ const uploadImage = require("../config/cloudinary");
 router.post("/", requireAuth, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { categorie, synopsis, title, genre, author, date, image } = req.body;
+    const { categorie, synopsis, title, genre, author, date, image, duration } =
+      req.body;
     const publicId = await uploadImage(image);
     const createdAudioVisual = await AudioVisual.create({
       categorie,
@@ -16,6 +17,7 @@ router.post("/", requireAuth, async (req, res, next) => {
       genre,
       author,
       date,
+      duration,
       image: publicId,
       user: userId,
     });
@@ -37,6 +39,7 @@ router.get("/", async (req, res, next) => {
         genre: 1,
         author: 1,
         date: 1,
+        duration: 1,
         image: 1,
         comments: 1,
       })
@@ -62,6 +65,7 @@ router.get("/publisher", requireAuth, async (req, res, next) => {
         genre: 1,
         author: 1,
         date: 1,
+        duration: 1,
         image: 1,
       })
       .populate("user", "pseudo");
@@ -85,6 +89,7 @@ router.get("/:audiovisualId", async (req, res, next) => {
         genre: 1,
         author: 1,
         date: 1,
+        duration: 1,
         image: 1,
       })
       .populate("user", { _id: 0, email: 1, pseudo: 1 });
@@ -107,6 +112,7 @@ router.put("/:audiovisualId", requireAuth, async (req, res, next) => {
     synopsis,
     author,
     date,
+    duration,
     image,
   };
   try {
