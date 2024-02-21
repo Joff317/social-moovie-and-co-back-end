@@ -1,15 +1,15 @@
 const router = require("express").Router();
 const requireAuth = require("../middlewares/requireAuth");
 const AudioVisual = require("../models/AudioVisual.model");
-const uploadImage = require("../config/cloudinary");
+// const uploadImage = require("../config/cloudinary");
 
 //1. Create audiovisual
 router.post("/", requireAuth, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { categorie, synopsis, title, genre, author, date, image, duration } =
+    const { categorie, synopsis, title, genre, author, date, duration, image } =
       req.body;
-    const publicId = await uploadImage(image);
+    // const publicId = await uploadImage(image);
     const createdAudioVisual = await AudioVisual.create({
       categorie,
       synopsis,
@@ -18,7 +18,8 @@ router.post("/", requireAuth, async (req, res, next) => {
       author,
       date,
       duration,
-      image: publicId,
+      image,
+      // image: publicId,
       user: userId,
     });
     res

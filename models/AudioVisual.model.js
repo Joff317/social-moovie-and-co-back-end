@@ -60,7 +60,7 @@ const audioVisualSchema = new Schema({
     required: [true, "author is mandatory"],
   },
   date: {
-    type: Number,
+    type: Date,
     required: [true, "date is mandatory"],
   },
   duration: {
