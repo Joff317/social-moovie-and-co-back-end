@@ -46,20 +46,10 @@ const audioVisualSchema = new Schema({
     unique: [true, "title must be unique"],
   },
   genre: {
-    type: String,
+    type: [String],
     required: [true, "genre is mandatory"],
-    // enum: {
-    //   values: allowedGenre,
-    //   message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
-    // },
-    validate: {
-      validator: function (values) {
-        // Assurez-vous que toutes les valeurs sont parmi les genres autorisés
-        const isValidGenres = values.every((value) =>
-          allowedGenre.includes(value)
-        );
-        return isValidGenres;
-      },
+    enum: {
+      values: allowedGenre,
       message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
     },
   },
