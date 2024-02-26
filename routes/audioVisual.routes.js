@@ -79,6 +79,101 @@ router.get("/publisher", requireAuth, async (req, res, next) => {
   }
 });
 
+router.get("/categorie/:type", async (req, res, next) => {
+  const type = req.params.type;
+  try {
+    let query = {};
+
+    if (type && type.toLowerCase() !== "tout") {
+      query = { categorie: type };
+    }
+    const audioVisuals = await AudioVisual.find({ categorie: type })
+      .select({
+        categorie: 1,
+        synopsis: 1,
+        title: 1,
+        genre: 1,
+        author: 1,
+        date: 1,
+        duration: 1,
+        image: 1,
+        comments: 1,
+      })
+      .populate("user", { _id: 0, pseudo: 1 });
+
+    res.status(201).json({
+      message: `Audiovisuals of type ${type} successfully retrieved`,
+      audioVisuals: audioVisuals,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/:genre", async (req, res, next) => {
+  const genre = req.params.genre;
+
+  try {
+    const audioVisuals = await AudioVisual.find({ genre: genre })
+      .select({
+        categorie: 1,
+        synopsis: 1,
+        title: 1,
+        genre: 1,
+        author: 1,
+        date: 1,
+        duration: 1,
+        image: 1,
+        comments: 1,
+      })
+      .populate("user", { _id: 0, pseudo: 1 });
+
+    res.status(201).json({
+      message: `Audiovisuals of genre ${genre} successfully retrieved`,
+      audioVisuals: audioVisuals,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.get("/filtered/mixed", async (req, res, next) => {
+  const { categorie, genre } = req.query;
+
+  try {
+    let query = {};
+
+    if (categorie && genre) {
+      query = { categorie: categorie, genre: genre };
+    } else if (categorie) {
+      query = { categorie: categorie };
+    } else if (genre) {
+      query = { genre: genre };
+    }
+
+    const audioVisuals = await AudioVisual.find(query)
+      .select({
+        categorie: 1,
+        synopsis: 1,
+        title: 1,
+        genre: 1,
+        author: 1,
+        date: 1,
+        duration: 1,
+        image: 1,
+        comments: 1,
+      })
+      .populate("user", { _id: 0, pseudo: 1 });
+
+    res.status(201).json({
+      message: "Filtered audiovisuals successfully retrieved",
+      audioVisuals: audioVisuals,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/:audiovisualId", async (req, res, next) => {
   const audioVisualId = req.params.audiovisualId;
   try {
