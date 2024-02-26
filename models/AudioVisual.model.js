@@ -48,8 +48,18 @@ const audioVisualSchema = new Schema({
   genre: {
     type: String,
     required: [true, "genre is mandatory"],
-    enum: {
-      values: allowedGenre,
+    // enum: {
+    //   values: allowedGenre,
+    //   message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
+    // },
+    validate: {
+      validator: function (values) {
+        // Assurez-vous que toutes les valeurs sont parmi les genres autorisés
+        const isValidGenres = values.every((value) =>
+          allowedGenre.includes(value)
+        );
+        return isValidGenres;
+      },
       message: `Invalid genre. Choose from: ${allowedGenre.join(", ")}`,
     },
   },
