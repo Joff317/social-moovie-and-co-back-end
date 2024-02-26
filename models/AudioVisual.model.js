@@ -5,6 +5,8 @@ const allowedGenre = [
   "science-fiction",
   "horreur",
   "action",
+  "aventure",
+  "surnaturel",
   "drame",
   "comedie",
   "romance",
@@ -13,7 +15,7 @@ const allowedGenre = [
   "animation",
   "documentaire",
   "policier",
-  "Autre",
+  "autre",
 ];
 
 const allowedCategories = ["film", "serie", "animé"];

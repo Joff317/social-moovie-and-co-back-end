@@ -25,7 +25,7 @@ router.post("/:audiovisuelId", requireAuth, async (req, res, next) => {
 router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
   try {
     const audioVisualId = req.params.audioVisualId;
-    const audioVisual = await AudioVisual.find(audioVisualId);
+    const audioVisual = await AudioVisual.findById(audioVisualId);
     console.log(audioVisual);
     const comments = await Commentary.find(audioVisualId)
       .populate("user", "pseudo")
@@ -63,7 +63,7 @@ router.put(
           commentId,
           newCommentary,
           { new: true }
-        ).populate("user", { _id: 0, email: 1 });
+        ).populate("user", { _id: 1, pseudo: 1 });
         res
           .status(201)
           .json({ message: "Commentary updated", data: updatedCommentary });
