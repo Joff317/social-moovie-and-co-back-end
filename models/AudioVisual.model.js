@@ -72,16 +72,6 @@ const audioVisualSchema = new Schema({
   image: {
     type: String,
     required: [true, "image is mandatory"],
-    //  validate: {
-    //    validator: async function (value) {
-    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-    //      console.log("value: ", value);
-    //      console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$");
-
-    //      return await imageValidation(value);
-    //    },
-    //    message: "Image is inappropriate or contains nudity.",
-    //  },
   },
   user: {
     type: Schema.Types.ObjectId,

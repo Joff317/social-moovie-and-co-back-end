@@ -174,6 +174,40 @@ router.get("/filtered/mixed", async (req, res, next) => {
   }
 });
 
+router.get("/searchbar/search", async (req, res, next) => {
+  try {
+    const { query } = req.query;
+
+    console.log("Received search query:", query);
+
+    const regex = new RegExp(`^${query}`, "i");
+
+    const searchResults = await AudioVisual.find({
+      title: { $regex: regex },
+    }).select({
+      categorie: 1,
+      synopsis: 1,
+      title: 1,
+      genre: 1,
+      author: 1,
+      date: 1,
+      duration: 1,
+      image: 1,
+      comments: 1,
+    });
+    // .populate("user", { _id: 0, pseudo: 1 });
+
+    console.log("Search Results:", searchResults);
+
+    res.status(201).json({
+      message: `Search results for "${query}"`,
+      audioVisuals: searchResults,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:audiovisualId", async (req, res, next) => {
   const audioVisualId = req.params.audiovisualId;
   try {
