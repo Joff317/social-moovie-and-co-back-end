@@ -30,6 +30,12 @@ const userSchema = new Schema({
   //     message:
   //       "Le mot de passe doit contenir 8 caractères dont une majuscule, un chiffre et un caractère spécial.",
   //   },
+  favorites: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "AudioVisual",
+    },
+  ],
 });
 
 const User = model("User", userSchema);
