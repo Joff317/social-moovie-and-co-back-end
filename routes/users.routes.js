@@ -4,6 +4,7 @@ const requireAuth = require("../middlewares/requireAuth");
 const bcrypt = require("bcrypt");
 
 const User = require("../models/User.model");
+const AudioVisual = require("../models/AudioVisual.model");
 
 // 1. Create User
 
@@ -25,6 +26,65 @@ router.post("/", async (req, res, next) => {
     );
 
     res.status(201).json({ message: "User created", token: token });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post(
+  "/addFavorite/:audiovisualId",
+  requireAuth,
+  async (req, res, next) => {
+    const audioVisualId = req.params.audiovisualId;
+    const userId = req.user._id;
+    try {
+      const user = await User.findById(userId);
+      if (user.favorites.includes(audioVisualId)) {
+        return res
+          .status(401)
+          .json({ message: "audiovisual already in favorites" });
+      }
+      console.log(user.favorites);
+
+      await User.updateOne(
+        { _id: userId },
+        { $push: { favorites: audioVisualId } }
+      );
+
+      res
+        .status(201)
+        .json({ message: "Audiovisual successfully added to favorites" });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get("/favorites", requireAuth, async (req, res, next) => {
+  const userId = req.user._id;
+
+  try {
+    const user = await User.findById(userId).populate("favorites");
+
+    const favoritesAudioVisual = user.favorites.map((audioVisual) => {
+      return {
+        _id: audioVisual._id,
+        categorie: audioVisual.categorie,
+        synopsis: audioVisual.synopsis,
+        title: audioVisual.title,
+        genre: audioVisual.genre,
+        author: audioVisual.author,
+        date: audioVisual.date,
+        duration: audioVisual.duration,
+        image: audioVisual.image,
+        comments: audioVisual.comments,
+      };
+    });
+
+    res.status(201).json({
+      message: "Favorites audiovisual return",
+      favorite: favoritesAudioVisual,
+    });
   } catch (err) {
     next(err);
   }
