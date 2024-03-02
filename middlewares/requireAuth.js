@@ -17,13 +17,14 @@ const requireAuth = (req, res, next) => {
       res.status(401).json({ error: "Vous devez être loggé." });
     }
 
-    console.log(payload);
-    const { userId } = payload;
-    const user = await User.findById(userId);
-    req.user = user;
-
+    if (payload) {
+      console.log(payload);
+      const { userId } = payload;
+      const user = await User.findById(userId);
+      req.user = user;
+    }
     next();
   });
 };
 
-module.exports = requireAuth
+module.exports = requireAuth;

@@ -37,6 +37,8 @@ router.post(
   async (req, res, next) => {
     const audioVisualId = req.params.audiovisualId;
     const userId = req.user._id;
+    console.log("audiovisual", audioVisualId);
+    console.log("userId", userId);
     try {
       const user = await User.findById(userId);
       if (user.favorites.includes(audioVisualId)) {
@@ -60,10 +62,36 @@ router.post(
   }
 );
 
-router.get("/favorites", requireAuth, async (req, res, next) => {
-  const userId = req.user._id;
+router.delete(
+  "/removeFavorite/:audiovisualId",
+  requireAuth,
+  async (req, res, next) => {
+    const audioVisualId = req.params.audiovisualId;
+    const userId = req.user._id;
+    try {
+      const user = await User.findById(userId);
 
+      if (!user.favorites.includes(audioVisualId)) {
+        return res
+          .status(401)
+          .json({ message: "audiovisual already in favorites" });
+      }
+
+      await User.updateOne(
+        { _id: userId },
+        { $pull: { favorites: audioVisualId } }
+      );
+
+      res.status(201).json({ message: "AudioVisual removed from favorites" });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+router.get("/favorites", requireAuth, async (req, res, next) => {
   try {
+    const userId = req.user._id;
     const user = await User.findById(userId).populate("favorites");
 
     const favoritesAudioVisual = user.favorites.map((audioVisual) => {
@@ -105,9 +133,12 @@ router.get("/", requireAuth, async (req, res, next) => {
 
 // 3. Get single User
 router.get("/uniqueuser", requireAuth, async (req, res, next) => {
+  console.log(req.user);
   try {
     const id = req.user._id; // Récupérer l'id de l'user authentifié défini dans le middleware.
-    const user = await User.findById(id).select({ email: 1, pseudo: 1 });
+    const user = await User.findById(id)
+      .select({ email: 1, pseudo: 1 })
+      .populate("favorites");
     res.status(201).json({
       message: `User with id: ${id} was successfully found`,
       user: user,
