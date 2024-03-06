@@ -80,64 +80,6 @@ router.get("/publisher", requireAuth, async (req, res, next) => {
   }
 });
 
-// router.get("/categorie/:type", async (req, res, next) => {
-//   const type = req.params.type;
-//   try {
-//     let query = {};
-
-//     if (type && type.toLowerCase() !== "tout") {
-//       query = { categorie: type };
-//     }
-//     const audioVisuals = await AudioVisual.find({ categorie: type })
-//       .select({
-//         categorie: 1,
-//         synopsis: 1,
-//         title: 1,
-//         genre: 1,
-//         author: 1,
-//         date: 1,
-//         duration: 1,
-//         image: 1,
-//         comments: 1,
-//       })
-//       .populate("user", { _id: 0, pseudo: 1 });
-
-//     res.status(201).json({
-//       message: `Audiovisuals of type ${type} successfully retrieved`,
-//       audioVisuals: audioVisuals,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
-// router.get("/:genre", async (req, res, next) => {
-//   const genre = req.params.genre;
-
-//   try {
-//     const audioVisuals = await AudioVisual.find({ genre: genre })
-//       .select({
-//         categorie: 1,
-//         synopsis: 1,
-//         title: 1,
-//         genre: 1,
-//         author: 1,
-//         date: 1,
-//         duration: 1,
-//         image: 1,
-//         comments: 1,
-//       })
-//       .populate("user", { _id: 0, pseudo: 1 });
-
-//     res.status(201).json({
-//       message: `Audiovisuals of genre ${genre} successfully retrieved`,
-//       audioVisuals: audioVisuals,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 router.get("/filtered/mixed", async (req, res, next) => {
   const { categorie, genre } = req.query;
 
@@ -232,7 +174,7 @@ router.get("/:audiovisualId", async (req, res, next) => {
   }
 });
 
-router.put("/:audiovisualId", requireAuth, async (req, res, next) => {
+router.put("/update/:audiovisualId", requireAuth, async (req, res, next) => {
   const audioVisualId = req.params.audiovisualId;
   const userId = req.user._id;
   const { categorie, synopsis, title, genre, author, date, image } = req.body;
@@ -273,7 +215,7 @@ router.put("/:audiovisualId", requireAuth, async (req, res, next) => {
   }
 });
 
-router.delete("/:audiovisualId", requireAuth, async (req, res, next) => {
+router.delete("/delete/:audiovisualId", requireAuth, async (req, res, next) => {
   const audioVisualId = req.params.audiovisualId;
   const userId = req.user._id;
   try {

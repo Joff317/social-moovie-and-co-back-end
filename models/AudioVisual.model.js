@@ -20,15 +20,6 @@ const allowedGenre = [
 
 const allowedCategories = ["film", "serie", "animé"];
 
-// const imageValidation = async (imagePath) => {
-//   try {
-//     await uploadImage(imagePath);
-//     return true;
-//   } catch (err) {
-//     return false;
-//   }
-// };
-
 const audioVisualSchema = new Schema({
   categorie: {
     type: String,
@@ -77,6 +68,11 @@ const audioVisualSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+
+  // comments: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: "Commentary"
+  // }]
 });
 
 const AudioVisual = model("AudioVisual", audioVisualSchema);
