@@ -3,10 +3,10 @@ const requireAuth = require("../middlewares/requireAuth");
 const Commentary = require("../models/Commentary.model");
 const AudioVisual = require("../models/AudioVisual.model");
 
-router.post("/:audiovisuelId", requireAuth, async (req, res, next) => {
+router.post("/:audiovisualId", requireAuth, async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const audioVisualId = req.params.audioVisualId;
+    const audioVisualId = req.params.audiovisualId;
     const { text } = req.body;
 
     const createdCommentary = await Commentary.create({
@@ -24,13 +24,14 @@ router.post("/:audiovisuelId", requireAuth, async (req, res, next) => {
 
 router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
   try {
-    const audioVisualId = req.params.audioVisualId;
+    const audioVisualId = req.params.audiovisualId;
+
     const audioVisual = await AudioVisual.findById(audioVisualId);
     console.log(audioVisual);
-    const comments = await Commentary.find(audioVisualId)
+
+    const comments = await Commentary.find({ audioVisual: audioVisualId })
       .populate("user", "pseudo")
       .select("text user");
-    console.log(comments);
 
     res.status(201).json({
       message: "Commentary retrieved",
@@ -41,6 +42,27 @@ router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
     next(err);
   }
 });
+
+// router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
+//   try {
+//     const audioVisualId = req.params.audioVisualId;
+
+//     // Utilisez .find au lieu de .findById pour récupérer tous les commentaires liés à l'audiovisuel
+//     const comments = await Commentary.find({ audioVisual: audioVisualId })
+//       .populate("user", "pseudo")
+//       .select("text user");
+
+//     const audioVisual = await AudioVisual.findById(audioVisualId);
+
+//     res.status(200).json({
+//       message: "Commentary retrieved",
+//       comments: comments,
+//       audioVisual: audioVisual,
+//     });
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 router.put(
   "/:audiovisualId/:commentId",
