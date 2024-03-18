@@ -171,6 +171,7 @@ router.get("/:audiovisualId", async (req, res, next) => {
       .json({ message: "AudioVisual found by ID", audioVisual: audioVisual });
   } catch (err) {
     next(err);
+    // catch l'erreur et évite que l'app crash, ça passe à la suite.
   }
 });
 
