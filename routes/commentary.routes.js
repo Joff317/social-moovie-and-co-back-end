@@ -43,27 +43,6 @@ router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
   }
 });
 
-// router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
-//   try {
-//     const audioVisualId = req.params.audioVisualId;
-
-//     // Utilisez .find au lieu de .findById pour récupérer tous les commentaires liés à l'audiovisuel
-//     const comments = await Commentary.find({ audioVisual: audioVisualId })
-//       .populate("user", "pseudo")
-//       .select("text user");
-
-//     const audioVisual = await AudioVisual.findById(audioVisualId);
-
-//     res.status(200).json({
-//       message: "Commentary retrieved",
-//       comments: comments,
-//       audioVisual: audioVisual,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
-
 router.put(
   "/:audiovisualId/:commentId",
   requireAuth,
