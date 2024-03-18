@@ -15,7 +15,7 @@ To get started with the backend, follow these steps:
 
 ## FrontEnd
 
-The frontend of this project is powered by Vite React & Tailwind. You can find the backend code and further instructions in the [frontend repository](https://github.com/Joff317/front-final-project).
+The frontend of this project is powered by Vite React & Tailwind. You can find the frontend code and further instructions in the [frontend repository](https://github.com/Joff317/front-final-project).
 
 ## Issues
 
