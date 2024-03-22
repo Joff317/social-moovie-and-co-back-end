@@ -5,10 +5,12 @@ const AudioVisual = require("../models/AudioVisual.model");
 
 router.post("/:audiovisualId", requireAuth, async (req, res, next) => {
   try {
-    const userId = req.user._id;
-    const audioVisualId = req.params.audiovisualId;
-    const { text } = req.body;
+    // On extrait les données de la requête
+    const userId = req.user._id; // Récupérable par le require Auth
+    const audioVisualId = req.params.audiovisualId; // AudioVisual auquel le commentaire est associé
+    const { text } = req.body; // Le texte de la requête extrait du corps POST
 
+    // Ensuite on vient créer un commentaire dans la bdd à l'aide du model Commentary
     const createdCommentary = await Commentary.create({
       user: userId,
       text,
@@ -18,20 +20,20 @@ router.post("/:audiovisualId", requireAuth, async (req, res, next) => {
       .status(201)
       .json({ message: "Commentary created", data: createdCommentary });
   } catch (err) {
-    next(err);
+    next(err); // Toute erreur du bloc try est capturé par next et empêche de passer à la suite.
   }
 });
 
 router.get("/:audiovisualId", requireAuth, async (req, res, next) => {
   try {
-    const audioVisualId = req.params.audiovisualId;
+    const audioVisualId = req.params.audiovisualId; //On extrait l'id de l'audiovisuel
 
-    const audioVisual = await AudioVisual.findById(audioVisualId);
+    const audioVisual = await AudioVisual.findById(audioVisualId); //On recherche l'audiovisuel correspondant de la bdd avec l'id
     console.log(audioVisual);
 
-    const comments = await Commentary.find({ audioVisual: audioVisualId })
-      .populate("user", "pseudo")
-      .select("text user");
+    const comments = await Commentary.find({ audioVisual: audioVisualId }) // On recherche tous les commentaires associé à l'audiovisuel en question
+      .populate("user", "pseudo") //On sélectionne le pseudo de l'utilisateur
+      .select("text user"); //On sélectionne le texte en question
 
     res.status(201).json({
       message: "Commentary retrieved",
@@ -48,12 +50,16 @@ router.put(
   requireAuth,
   async (req, res, next) => {
     try {
+      // On extrait les données nécessaire de la requête
       const commentId = req.params.commentId;
       const userId = req.user._id;
       const { text } = req.body;
+      // On met à jour le nouveau commentaire
       const newCommentary = {
         text,
       };
+
+      // Vérifie si l'utilisateur est autorisé à modifié le commentaire en question
       const checkUser = await Commentary.findById(commentId).populate("user", {
         _id: 1,
         email: 1,
@@ -63,8 +69,8 @@ router.put(
         const updatedCommentary = await Commentary.findByIdAndUpdate(
           commentId,
           newCommentary,
-          { new: true }
-        ).populate("user", { _id: 1, pseudo: 1 });
+          { new: true } // Pour récupérer le nouveau commmentaire mis à jour dans la bdd
+        ).populate("user", { _id: 1, pseudo: 1 }); //On récupére l'id pour identifier l'utilisateur de façon unique
         res
           .status(201)
           .json({ message: "Commentary updated", data: updatedCommentary });
