@@ -296,7 +296,6 @@ Cette documentation décrit les différentes routes et fonctionnalités disponib
 
 ### Supprimer un utilisateur
 
-```markdown
 - **URL :** `/users/:id`
 - **Méthode HTTP :** `DELETE`
 - **Authentification requise :** Non
