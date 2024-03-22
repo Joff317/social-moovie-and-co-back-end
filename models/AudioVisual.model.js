@@ -33,7 +33,7 @@ const audioVisualSchema = new Schema({
   },
   title: {
     type: String,
-    required: [true, "categorie is mandatory"],
+    required: [true, "title is mandatory"],
     unique: [true, "title must be unique"],
   },
   genre: {
