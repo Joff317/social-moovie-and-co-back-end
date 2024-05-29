@@ -45,7 +45,8 @@ router.get("/", async (req, res, next) => {
         image: 1,
         comments: 1,
       })
-      .populate("user", { _id: 0, pseudo: 1 });
+      .populate("user", { _id: 0, pseudo: 1 })
+      .limit(30);
 
     res.status(201).json({
       message: "All audiovisual successfully get",
