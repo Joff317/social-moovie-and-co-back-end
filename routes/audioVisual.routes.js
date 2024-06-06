@@ -32,30 +32,7 @@ router.post("/", requireAuth, async (req, res, next) => {
 });
 
 router.get("/", async (req, res, next) => {
-  const start = Date.now();
-  console.log("Received request at:", new Date().toISOString());
-
   try {
-    console.log("Query started at:", new Date().toISOString());
-
-    const explainResult = await AudioVisual.find()
-      .select({
-        categorie: 1,
-        synopsis: 1,
-        title: 1,
-        genre: 1,
-        author: 1,
-        date: 1,
-        duration: 1,
-        image: 1,
-        comments: 1,
-      })
-      .populate("user", { _id: 0, pseudo: 1 })
-      .limit(50)
-      .explain("executionStats");
-
-    console.log("Explain result:", JSON.stringify(explainResult, null, 2));
-
     const audioVisuals = await AudioVisual.find()
       .select({
         categorie: 1,
@@ -71,10 +48,7 @@ router.get("/", async (req, res, next) => {
       .populate("user", { _id: 0, pseudo: 1 })
       .limit(50);
 
-    const duration = Date.now() - start;
-    console.log(`Query took ${duration} ms at:`, new Date().toISOString());
-
-    res.status(200).json({
+    res.status(201).json({
       message: "All audiovisual successfully retrieved",
       audioVisuals: audioVisuals,
     });
