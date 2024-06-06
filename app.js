@@ -10,13 +10,7 @@ require("./models/User.model");
 const app = express();
 
 // Middleware
-app.use(
-  cors({
-    origin: process.env.CORS_URL,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors({ origin: process.env.CORS_URL }));
 
 app.use(morgan("dev"));
 app.use(express.json());

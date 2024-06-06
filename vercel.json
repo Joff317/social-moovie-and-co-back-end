@@ -6,13 +6,15 @@
       "use": "@vercel/node"
     }
   ],
-
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://front-final-project-orcin.vercel.app"
+        },
         {
           "key": "Access-Control-Allow-Methods",
           "value": "GET,OPTIONS,PATCH,DELETE,POST,PUT"
@@ -22,13 +24,6 @@
           "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
         }
       ]
-    }
-  ],
-
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/app.js"
     }
   ]
 }
