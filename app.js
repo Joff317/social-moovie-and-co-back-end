@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
   res.json({ message: "voici la réponse" });
 });
 
-// app.options("*", cors());
+app.options("*", cors());
 
 app.use("/api", require("./routes/index.routes"));
 
