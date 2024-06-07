@@ -10,14 +10,11 @@ require("./models/User.model");
 const app = express();
 
 // Middleware
-const corsOptions = {
-  origin: process.env.CORS_URL,
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: process.env.CORS_URL,
+  })
+);
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -27,7 +24,7 @@ app.get("/", (req, res) => {
   res.json({ message: "voici la réponse" });
 });
 
-console.log(`CORS URL: ${process.env.CORS_URL}`);
+// app.options("*", cors());
 
 app.use("/api", require("./routes/index.routes"));
 
