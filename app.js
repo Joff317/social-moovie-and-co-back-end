@@ -13,9 +13,9 @@ const app = express();
 app.use(
   cors({
     origin: process.env.CORS_URL,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
+    // methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    // allowedHeaders: ["Content-Type", "Authorization"],
+    // credentials: true,
   })
 );
 
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   res.json({ message: "voici la réponse" });
 });
 
-app.options("*", cors());
+// app.options("*", cors());
 
 app.use("/api", require("./routes/index.routes"));
 
